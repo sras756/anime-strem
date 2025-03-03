@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Stream</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #000; /* Black background */
+            color: #fff; /* White text color */
+        }
+
+        a {
+            color: #f47521; /* Crunchyroll orange */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #ffa64d; /* Lighter orange on hover */
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: #000;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f47521;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #f47521;
+        }
+
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar ul li {
+            display: inline;
+        }
+
+        .navbar ul li a {
+            font-size: 1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('https://via.placeholder.com/1200x400') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+        }
+
+        /* Anime Library Section */
+        .anime-library {
+            padding: 20px;
+        }
+
+        .anime-library h2 {
+            font-size: 2rem;
+            color: #f47521;
+            margin-bottom: 20px;
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .anime-card {
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .anime-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .anime-card h3 {
+            font-size: 1.2rem;
+            margin: 10px;
+            color: #fff;
+        }
+
+        .anime-card p {
+            font-size: 0.9rem;
+            margin: 0 10px 10px;
+            color: #ccc;
+        }
+
+        /* Anime Details Section */
+        .anime-details {
+            padding: 20px;
+            display: none;
+        }
+
+        .anime-details h2 {
+            font-size: 2.5rem;
+            color: #f47521;
+            margin-bottom: 10px;
+        }
+
+        .anime-details p {
+            font-size: 1.1rem;
+            color: #ccc;
+        }
+
+        .episode-list {
+            margin-top: 20px;
+        }
+
+        .episode-list button {
+            background: #f47521;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .episode-list button:hover {
+            background: #ffa64d;
+        }
+
+        /* Video Player Section */
+        .video-player {
+            padding: 20px;
+            display: none;
+        }
+
+        .video-player iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        /* Footer Section */
+        footer {
+            background: #000;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #f47521;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <h1>Anime Stream</h1>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Library</a></li>
+            <li><a href="#">Profile</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div>
+            <h2>Welcome to Anime Stream</h2>
+            <p>Watch your favorite anime anytime, anywhere!</p>
+        </div>
+    </section>
+
+    <!-- Anime Library Section -->
+    <section class="anime-library">
+        <h2>Popular Anime</h2>
+        <div class="anime-grid" id="anime-library">
+            <!-- Anime cards will be dynamically added here -->
+        </div>
+    </section>
+
+    <!-- Anime Details Section -->
+    <section class="anime-details" id="anime-details">
+        <h2 id="anime-title-details"></h2>
+        <p id="anime-description-details"></p>
+        <div class="episode-list" id="episode-list"></div>
+    </section>
+
+    <!-- Video Player Section -->
+    <section class="video-player" id="video-player">
+        <iframe id="video-iframe" src="" allowfullscreen></iframe>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2023 Anime Stream. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample Anime Data
+        const animeData = [
+            {
+                id: 1,
+                title: "Naruto",
+                description: "A young ninja dreams of becoming the Hokage.",
+                episodes: [
+                    { id: 1, title: "Episode 1", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                    { id: 2, title: "Episode 2", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                    { id: 3, title: "Episode 3", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
+                ],
+                thumbnail: "https://via.placeholder.com/300x400?text=Naruto"
+            },
+            {
+                id: 2,
+                title: "One Piece",
+                description: "A pirate crew searches for the legendary One Piece treasure.",
+                episodes: [
+                    { id: 1, title: "Episode 1", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                    { id: 2, title: "Episode 2", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                    { id: 3, title: "Episode 3", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
+                ],
+                thumbnail: "https://via.placeholder.com/300x400?text=One+Piece"
+            }
+        ];
+
+        // Render Anime Library
+        function renderAnimeLibrary() {
+            const animeLibrary = document.getElementById('anime-library');
+            animeLibrary.innerHTML = animeData.map(anime => `
+                <div class="anime-card" onclick="showAnimeDetails(${anime.id})">
+                    <img src="${anime.thumbnail}" alt="${anime.title}">
+                    <h3>${anime.title}</h3>
+                    <p>${anime.description}</p>
+                </div>
+            `).join('');
+        }
+
+        // Show Anime Details
+        function showAnimeDetails(animeId) {
+            const anime = animeData.find(a => a.id === animeId);
+            const animeDetails = document.getElementById('anime-details');
+            const animeTitle = document.getElementById('anime-title-details');
+            const animeDescription = document.getElementById('anime-description-details');
+            const episodeList = document.getElementById('episode-list');
+
+            animeTitle.textContent = anime.title;
+            animeDescription.textContent = anime.description;
+            episodeList.innerHTML = anime.episodes.map(episode => `
+                <button onclick="playEpisode('${episode.url}')">${episode.title}</button>
+            `).join('');
+
+            animeDetails.style.display = "block";
+        }
+
+        // Play Episode
+        function playEpisode(url) {
+            const videoIframe = document.getElementById('video-iframe');
+            videoIframe.src = url;
+            document.getElementById('video-player').style.display = "block";
+        }
+
+        // Initialize
+        renderAnimeLibrary();
+    </script>
+</body>
+</html>
