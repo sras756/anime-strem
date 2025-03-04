@@ -1,302 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Stream</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #000; /* Black background */
-            color: #fff; /* White text color */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crunchyroll Clone</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a;
+      color: #fff;
+    }
 
-        a {
-            color: #f47521; /* Crunchyroll orange */
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
+    /* Navigation Bar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #333;
+    }
 
-        a:hover {
-            color: #ffa64d; /* Lighter orange on hover */
-        }
+    nav .logo img {
+      height: 40px;
+    }
 
-        /* Navigation Bar */
-        .navbar {
-            background: #000;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #f47521;
-        }
+    nav .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
 
-        .navbar h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: #f47521;
-        }
+    nav .nav-links a {
+      color: #fff;
+      text-decoration: none;
+    }
 
-        .navbar ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 20px;
-        }
+    nav .auth-buttons button {
+      background-color: #f47521;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
 
-        .navbar ul li {
-            display: inline;
-        }
+    nav .auth-buttons button.login {
+      background-color: transparent;
+      border: 1px solid #f47521;
+    }
 
-        .navbar ul li a {
-            font-size: 1rem;
-        }
+    /* Hero Section */
+    .hero {
+      background-image: url('https://via.placeholder.com/1200x400');
+      background-size: cover;
+      background-position: center;
+      padding: 100px 20px;
+      text-align: center;
+    }
 
-        /* Hero Section */
-        .hero {
-            background: url('https://via.placeholder.com/1200x400') no-repeat center center/cover;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #fff;
-        }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
 
-        .hero h2 {
-            font-size: 3rem;
-            margin: 0;
-        }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
 
-        .hero p {
-            font-size: 1.2rem;
-            margin: 10px 0 0;
-        }
+    .hero .cta {
+      background-color: #f47521;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
 
-        /* Anime Library Section */
-        .anime-library {
-            padding: 20px;
-        }
+    /* Anime Categories */
+    .categories {
+      padding: 40px 20px;
+      text-align: center;
+    }
 
-        .anime-library h2 {
-            font-size: 2rem;
-            color: #f47521;
-            margin-bottom: 20px;
-        }
+    .categories h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
 
-        .anime-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
 
-        .anime-card {
-            background: #1a1a1a;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .category-card {
+      background-color: #444;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+    }
 
-        .anime-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
+    .category-card img {
+      width: 100%;
+      height: auto;
+    }
 
-        .anime-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
+    .category-card h3 {
+      padding: 10px;
+      margin: 0;
+    }
 
-        .anime-card h3 {
-            font-size: 1.2rem;
-            margin: 10px;
-            color: #fff;
-        }
+    /* Footer */
+    footer {
+      background-color: #222;
+      padding: 20px;
+      text-align: center;
+    }
 
-        .anime-card p {
-            font-size: 0.9rem;
-            margin: 0 10px 10px;
-            color: #ccc;
-        }
+    footer .footer-links {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
 
-        /* Anime Details Section */
-        .anime-details {
-            padding: 20px;
-            display: none;
-        }
-
-        .anime-details h2 {
-            font-size: 2.5rem;
-            color: #f47521;
-            margin-bottom: 10px;
-        }
-
-        .anime-details p {
-            font-size: 1.1rem;
-            color: #ccc;
-        }
-
-        .episode-list {
-            margin-top: 20px;
-        }
-
-        .episode-list button {
-            background: #f47521;
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .episode-list button:hover {
-            background: #ffa64d;
-        }
-
-        /* Video Player Section */
-        .video-player {
-            padding: 20px;
-            display: none;
-        }
-
-        .video-player iframe {
-            width: 100%;
-            height: 500px;
-            border: none;
-            border-radius: 10px;
-        }
-
-        /* Footer Section */
-        footer {
-            background: #000;
-            padding: 20px;
-            text-align: center;
-            border-top: 2px solid #f47521;
-        }
-
-        footer p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #ccc;
-        }
-    </style>
+    footer .footer-links a {
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <div class="navbar">
-        <h1>Anime Stream</h1>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Library</a></li>
-            <li><a href="#">Profile</a></li>
-        </ul>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Crunchyroll_Logo.png" alt="Crunchyroll Logo">
     </div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#browse">Browse</a></li>
+      <li><a href="#manga">Manga</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#store">Store</a></li>
+    </ul>
+    <div class="auth-buttons">
+      <button class="login">Log In</button>
+      <button class="signup">Sign Up</button>
+    </div>
+  </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div>
-            <h2>Welcome to Anime Stream</h2>
-            <p>Watch your favorite anime anytime, anywhere!</p>
-        </div>
-    </section>
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Welcome to Crunchyroll</h1>
+      <p>Stream the world's largest anime library. Watch new episodes shortly after Japan, and read manga online.</p>
+      <button class="cta">Start Your Free Trial</button>
+    </div>
+  </section>
 
-    <!-- Anime Library Section -->
-    <section class="anime-library">
-        <h2>Popular Anime</h2>
-        <div class="anime-grid" id="anime-library">
-            <!-- Anime cards will be dynamically added here -->
-        </div>
-    </section>
+  <!-- Anime Categories -->
+  <section id="browse" class="categories">
+    <h2>Popular Anime Categories</h2>
+    <div class="category-grid">
+      <div class="category-card">
+        <img src="https://via.placeholder.com/300x200" alt="Action">
+        <h3>Action</h3>
+      </div>
+      <div class="category-card">
+        <img src="https://via.placeholder.com/300x200" alt="Adventure">
+        <h3>Adventure</h3>
+      </div>
+      <div class="category-card">
+        <img src="https://via.placeholder.com/300x200" alt="Romance">
+        <h3>Romance</h3>
+      </div>
+      <div class="category-card">
+        <img src="https://via.placeholder.com/300x200" alt="Fantasy">
+        <h3>Fantasy</h3>
+      </div>
+    </div>
+  </section>
 
-    <!-- Anime Details Section -->
-    <section class="anime-details" id="anime-details">
-        <h2 id="anime-title-details"></h2>
-        <p id="anime-description-details"></p>
-        <div class="episode-list" id="episode-list"></div>
-    </section>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Crunchyroll Clone. All rights reserved.</p>
+    <ul class="footer-links">
+      <li><a href="#terms">Terms of Service</a></li>
+      <li><a href="#privacy">Privacy Policy</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+    </ul>
+  </footer>
 
-    <!-- Video Player Section -->
-    <section class="video-player" id="video-player">
-        <iframe id="video-iframe" src="" allowfullscreen></iframe>
-    </section>
-
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2023 Anime Stream. All rights reserved.</p>
-    </footer>
-
-    <script>
-        // Sample Anime Data
-        const animeData = [
-            {
-                id: 1,
-                title: "Naruto",
-                description: "A young ninja dreams of becoming the Hokage.",
-                episodes: [
-                    { id: 1, title: "Episode 1", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                    { id: 2, title: "Episode 2", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                    { id: 3, title: "Episode 3", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
-                ],
-                thumbnail: "https://via.placeholder.com/300x400?text=Naruto"
-            },
-            {
-                id: 2,
-                title: "One Piece",
-                description: "A pirate crew searches for the legendary One Piece treasure.",
-                episodes: [
-                    { id: 1, title: "Episode 1", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                    { id: 2, title: "Episode 2", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                    { id: 3, title: "Episode 3", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
-                ],
-                thumbnail: "https://via.placeholder.com/300x400?text=One+Piece"
-            }
-        ];
-
-        // Render Anime Library
-        function renderAnimeLibrary() {
-            const animeLibrary = document.getElementById('anime-library');
-            animeLibrary.innerHTML = animeData.map(anime => `
-                <div class="anime-card" onclick="showAnimeDetails(${anime.id})">
-                    <img src="${anime.thumbnail}" alt="${anime.title}">
-                    <h3>${anime.title}</h3>
-                    <p>${anime.description}</p>
-                </div>
-            `).join('');
-        }
-
-        // Show Anime Details
-        function showAnimeDetails(animeId) {
-            const anime = animeData.find(a => a.id === animeId);
-            const animeDetails = document.getElementById('anime-details');
-            const animeTitle = document.getElementById('anime-title-details');
-            const animeDescription = document.getElementById('anime-description-details');
-            const episodeList = document.getElementById('episode-list');
-
-            animeTitle.textContent = anime.title;
-            animeDescription.textContent = anime.description;
-            episodeList.innerHTML = anime.episodes.map(episode => `
-                <button onclick="playEpisode('${episode.url}')">${episode.title}</button>
-            `).join('');
-
-            animeDetails.style.display = "block";
-        }
-
-        // Play Episode
-        function playEpisode(url) {
-            const videoIframe = document.getElementById('video-iframe');
-            videoIframe.src = url;
-            document.getElementById('video-player').style.display = "block";
-        }
-
-        // Initialize
-        renderAnimeLibrary();
-    </script>
+  <!-- JavaScript for Interactivity -->
+  <script>
+    // Example: Add a simple alert when the CTA button is clicked
+    document.querySelector('.cta').addEventListener('click', () => {
+      alert('Start your free trial today!');
+    });
+  </script>
 </body>
 </html>
